@@ -1,0 +1,16 @@
+[mysqld]
+general_log = 1
+general_log_file = /var/log/mysql/mysql.log
+
+slow_query_log = 1
+slow_query_log_file = /var/log/mysql/slow.log
+long_query_time = 5
+
+log_error = /var/log/mysql/error.log
+
+# server-id: Must be set to 0 for binary logging to take place
+server-id = 1
+binlog_format = ROW
+expire_logs_days = 7
+log-bin = /var/lib/mysql/bin-log
+binlog_do_db = recore

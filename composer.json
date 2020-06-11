@@ -1,0 +1,13 @@
+{
+    "name": "ac93/cross-database-replication",
+    "require": {
+        "cakephp/cakephp": "2.10.*",
+        "fzaninotto/faker": "^1.9"
+    },
+    "config": {
+        "vendor-dir": "Vendor/"
+    },
+    "require-dev": {
+        "psy/psysh": "^0.10.4"
+    }
+}

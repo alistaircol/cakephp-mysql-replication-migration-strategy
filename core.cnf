@@ -1,0 +1,19 @@
+[mysqld]
+
+# https://github.com/docker-library/mysql/issues/69#issuecomment-412177146
+# https://github.com/docker-library/mysql/issues/541#issuecomment-463320181
+# alternatively can be put in docker-compose like this:
+# command: --innodb-use-native-aio=0 --secure-file-priv=NULL
+innodb_use_native_aio = 0
+secure-file-priv = ""
+
+general_log = 1
+general_log_file = /var/log/mysql/mysql.log
+
+slow_query_log = 1
+slow_query_log_file = /var/log/mysql/slow.log
+long_query_time = 5
+
+log_error = /var/log/mysql/error.log
+
+server_id = 2

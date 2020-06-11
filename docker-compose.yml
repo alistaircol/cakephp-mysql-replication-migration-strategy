@@ -1,0 +1,47 @@
+version: '3'
+volumes:
+  db-main-data:
+    driver: local
+  # yup, this sucks
+  db-main-logs:
+    driver: local
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+      o: size=100m,rw
+  db-new-data:
+    driver: local
+  db-new-logs:
+    driver: local
+
+services:
+  web:
+    build:
+      context: .
+    image: web
+    container_name: web
+    env_file: '.web.env'
+    volumes:
+      - './:/var/www/html'
+    depends_on:
+      - core
+      - recore
+
+  core:
+    image: mysql:8
+    container_name: db_core
+    env_file: 'core.env'
+    volumes:
+      # trailing / is seriously important
+      - 'db-main-data:/var/lib/mysql/'
+      - 'db-main-logs:/var/log/mysql/'
+      - './core.cnf:/etc/mysql/my.cnf'
+
+  recore:
+    image: mariadb:10.4.12
+    container_name: db_recore
+    env_file: 'recore.env'
+    volumes:
+      - 'db-new-data:/var/lib/mysql'
+      - 'db-new-logs:/var/log/mysql'
+      - './recore.cnf:/etc/mysql/my.cnf'
