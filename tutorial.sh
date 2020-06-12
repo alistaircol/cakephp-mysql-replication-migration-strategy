@@ -16,7 +16,7 @@ if [ -z "$STEP" ]; then
     exit
 fi
 
-if [ "$STEP" -eq "1" ]; then
+if [ "$STEP" -eq "1" ]; then # Import core and recore data
     pv core.sql | docker exec \
         --interactive \
         db_core \
@@ -35,7 +35,7 @@ if [ "$STEP" -eq "1" ]; then
     read -n 1 -s -r -p "Press any key to continue"
     clear
     bash tutorial.sh
-elif [ "$STEP" -eq "2" ]; then
+elif [ "$STEP" -eq "2" ]; then # Perform master dump in recore
     cat <<-"SH" | docker exec -i db_recore bash > master.sql
 mysqldump \
     --master-data \
@@ -48,7 +48,7 @@ SH
     read -n 1 -s -r -p "Press any key to continue"
     clear
     bash tutorial.sh
-elif [ "$STEP" -eq "3" ]; then
+elif [ "$STEP" -eq "3" ]; then # Import master dump into core
     pv master.sql | docker exec \
         --interactive \
         db_core \
@@ -61,7 +61,7 @@ elif [ "$STEP" -eq "3" ]; then
     read -n 1 -s -r -p "Press any key to continue"
     clear
     bash tutorial.sh
-elif [ "$STEP" -eq "4" ]; then
+elif [ "$STEP" -eq "4" ]; then # CHANGE MASTER and start replication
     cat <<-SQL | docker exec -i \
     db_core \
     mysql \
